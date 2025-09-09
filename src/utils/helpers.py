@@ -1,10 +1,9 @@
 from __future__ import annotations
 import importlib, pkgutil
-from typing import Callable, List, Dict
+from typing import List, Dict
 
 import MetaTrader5 as mt5
 
-# src/trading_strategies/loader.py
 
 def discover_strategies() -> List[Dict]:
     """
@@ -67,11 +66,12 @@ def strategy_select():
 def initialize_mt5(path=r"C:\Users\AnshKumar\Desktop\MT5\terminal64.exe"):
     terminal_info = mt5.terminal_info()
     if terminal_info is None:
-        if not mt5.initialize(path=r"C:\Users\AnshKumar\Desktop\MT5\terminal64.exe"):
-            print("initialize() failed, error code =", mt5.last_error())
-            quit()
-
-import MetaTrader5 as mt5
+        if not mt5.initialize():
+            print("ERROR - MT5 not in the default location.")
+            if not mt5.initialize(path=path):
+                print("initialize() failed, error code =", mt5.last_error())
+                print("Go to src/utils/helpers.py and change the default path in the initialize_mt5 method")
+                quit()
 
 def resolve_timeframe(tf):
     """
