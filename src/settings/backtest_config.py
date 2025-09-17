@@ -5,8 +5,8 @@ AUTO_ADJUST_HISTORY_WINDOW = True
 INITIAL_BALANCE     = 3000
 SYMBOL              = 'EURUSD'
 TIMEFRAME           = mt5.TIMEFRAME_M1
-DATE_START          = datetime(2025, 6, 1, tzinfo=timezone.utc)
-DATE_END            = datetime(2025, 6, 30, tzinfo=timezone.utc)
+DATE_START          = datetime(2025, 7, 25, tzinfo=timezone.utc)
+DATE_END            = datetime(2025, 7, 30, tzinfo=timezone.utc)
 WARMUP_BARS         = 200
 ORDER_SIZE_UNITS    = 10_000
 SPREAD_POINTS       = 10
