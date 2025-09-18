@@ -11,7 +11,7 @@ from src.settings import backtest_config as cfg
 from src.trading_strategies.abstract_strategy import Strategy
 from src.utils import helpers
 from src.utils.log import log, Label
-from src.volume_strategies.position_sizing import PositionSizer, FixedUnitsSizer, OrderContext
+from src.sizing_strategies.position_sizing import PositionSizer, FixedUnitsSizer, OrderContext
 
 from src.commons import multitf_feed
 from src.commons.date_containers import *

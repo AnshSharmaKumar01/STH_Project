@@ -1,4 +1,4 @@
-# src/volume_strategies/win_streak_sizer.py
+# src/sizing_strategies/win_streak_sizer.py
 from .position_sizing import PositionSizer, OrderContext
 
 READABLE_FORMAT = "Win Streak Sizer (+20% per win, cap 3)"
