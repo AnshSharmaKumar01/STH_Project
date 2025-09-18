@@ -6,7 +6,7 @@ from src.indicators.moving_average import SimpleMovingAverage
 from src.optimizer.space import IntParam, CategoricalParam, FloatParam
 from src.trading_strategies.abstract_strategy import Strategy
 
-READABLE_FORMAT = "Trading Strategy tTmplate"
+READABLE_FORMAT = "Trading Strategy Template"
 
 # What to Optimize
 OPT_SPACE = [
@@ -34,7 +34,7 @@ def _rule_template(p: dict) -> bool:
 RULES = [_rule_template]
 
 @dataclass
-class MACrossoverScalping(Strategy):
+class TradingStrategyTemplate(Strategy):
     a: int = 20
     b: float = 1.5
     c: str = "1"
@@ -88,7 +88,7 @@ def initialize_strategy(**params) -> Strategy:
     if not _rule_template(p):
         raise ValueError(f"Invalid params: fast({p['fast']}) must be < slow({p['slow']})")
 
-    return MACrossoverScalping(
+    return TradingStrategyTemplate(
         a = p['a'],
         b = p['b'],
         c = p['c'],

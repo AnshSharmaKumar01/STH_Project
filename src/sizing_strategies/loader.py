@@ -1,4 +1,4 @@
-# src/volume_strategies/loader.py
+# src/sizing_strategies/loader.py
 from __future__ import annotations
 import importlib, pkgutil
 from typing import Dict, List, Callable, Any
@@ -7,12 +7,12 @@ from .position_sizing import PositionSizer, FixedUnitsSizer   # base + fallback
 
 def _discover() -> List[Dict[str, Any]]:
     """
-    Find modules inside volume_strategies that define:
+    Find modules inside sizing_strategies that define:
       - READABLE_FORMAT (str)
       - initialize_sizer() -> PositionSizer
     Skips the base module 'position_sizing'.
     """
-    import src.volume_strategies as pkg
+    import src.sizing_strategies as pkg
     items: List[Dict[str, Any]] = []
 
     for _, modname, ispkg in pkgutil.iter_modules(pkg.__path__, pkg.__name__ + "."):
@@ -62,7 +62,7 @@ def sizer_select(default_units: int | None = None) -> PositionSizer | None:
     items = _order_with_fixed_last(items)
 
     if not items:
-        print("No volume strategies found in `volume_strategies/`.")
+        print("No volume strategies found in `sizing_strategies/`.")
         return None
 
     # locate tester/fixed index

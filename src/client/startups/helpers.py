@@ -1,6 +1,6 @@
 from src.utils.helpers import strategy_select
 from src.utils.log import log, Label
-from src.volume_strategies.loader import sizer_select
+from src.sizing_strategies.loader import sizer_select
 
 def setup(mode):
     selected_strategy = strategy_select()

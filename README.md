@@ -172,6 +172,66 @@ need to be included:
    initialize follows the same structure as the template, with p. Make sure to also check if the parameters here 
    follow the rules, if not throw a `ValueError`
 
+
+### Adding New Sizing Strategies
+To add a new sizing strategy, make sure to create a new python file, with the name of your strategy, and save it in 
+`src/sizing_strategies/`. You can follow the sizing strategy template found in 
+`src/strategy_templates/sizing_strategy_template.py`, a simple sizing strategy can be found in 
+`src/sizing_strategies/win_streak_sizer.py`. To ensure that the sizing strategy works fully, the following 
+need to be included:
+
+1. `READABLE_FORMAT` is a **required** string that needs to be included, this is what will be printed during the 
+   initial prompt
+2. To allow for full optimization functionality the following need to be included:
+   1. `OPT_SPACE` is a **required** list of param objects. These are the parameters that are optimized. The 
+      different parameter types can be found in `src/optimizer/space.py`. The 3 kinds of parameters are [IntParam](#intparam), 
+      [FloatParam](#floatparam), and [CategoricalParam](#categoricalparam).
+   2. `FIXED_PARAMS` is a **required** dictionary of fixed parameters. The keys are the names of the parameters, and 
+      the value is the fixed value for them.
+   3. `DEFAULT_PARAMS` is a **required** dictionary of the default values for every parameter. This should include 
+      all the parameters, and their default values.
+   4. `RULES` is a **required** list of rules. This list can be empty. A rule is a method that returns a boolean 
+      value. The rules here are rules that the parameters should follow. For instance, if parameter a should always 
+      be smaller than parameter b. Follow the format for the rules as in the template file.
+3. The class should be named the name of the strategy, and should have all the parameters included. For a fully 
+   functioning strategy class, the following need to be included:
+   1. `size(ctx: OrderContext)` is a **required** method. This method is given the [OrderContext](#ordercontext) and
+       then returns the size of the position.
+4. `initialize_strategy(**params)` is a **required** method. This method should be at the bottom of the file, 
+   outside the class. This method initializes the actual strategy given the parameters as input. Make sure that the 
+   initialize follows the same structure as the template, with p. Make sure to also check if the parameters here 
+   follow the rules, if not throw a `ValueError`
+
+### Adding New Indicators
+When adding new indicators, store them under `src/indicators/`. If there are variants of indicators (ie. MA, SMA, EMA), 
+then keep them in one file. If the file is too large then create a new directory under `src/indicators/` and add the 
+relevant files there.
+
+## Features [Incomplete]
+
+### OrderContext
+Provides the context of the current order. The implementation can be seen below:
+
+```python
+@dataclass(frozen=True)
+class OrderContext:
+    symbol: str
+    side: int                     # +1 long, -1 short (for the order being considered)
+    price: float
+    equity: float
+    free_margin: float
+    leverage: float
+    position: Optional[object]    # DEPRECATED: None when multi-pos; kept for old sizers
+    positions: Tuple[object, ...] # NEW: all open positions (immutable snapshot)
+    trades: Tuple[object, ...]    # closed trades history
+    feed: MultiTFFeedView
+    bar: object
+    layer: int = 1
+```
+
+### Optimization Parameters
+To make optimizing easier, use the optimization parameters below.
+
 #### IntParam
 For parameters which are integers the `IntParam` object should be used. The implementation can be seen below:
 
@@ -214,12 +274,6 @@ class CategoricalParam:
     def values(self) -> Iterable[Any]:
         return list(self.choices)
 ```
-
-### Adding New Sizing Strategies [Incomplete]
-
-### Adding New Indicators [Incomplete]
-
-## Features [Incomplete]
 
 ## Contributing
 Contributions are welcome!
